@@ -1,0 +1,19 @@
+on: [push]
+name: "Teaurn CI"
+jobs:
+  test:
+    runs-on: windows-latest
+    name: Build and Test
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: "Run tests."
+        shell: pwsh
+        run: |
+          Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+          Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+          scoop -v
+          scoop bucket add extras https://github.com/alyxshang/teaurn.git
+          scoop search mandy
+          scoop install mandy
+          mandy -v
